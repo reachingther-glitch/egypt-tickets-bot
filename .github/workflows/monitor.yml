@@ -1,0 +1,73 @@
+name: Египет — билеты и отели
+
+on:
+  schedule:
+    # Каждые 5 минут, GitHub может задерживать или пропускать запуски.
+    - cron: '2/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Что проверять?'
+        required: true
+        default: test
+        type: choice
+        options:
+          - test
+          - check
+          - flights
+          - hotels
+
+permissions:
+  contents: write
+
+concurrency:
+  group: egypt-flight-hotel-monitor
+  cancel-in-progress: false
+
+jobs:
+  price-alerts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TRAVELPAYOUTS_API_TOKEN: ${{ secrets.TRAVELPAYOUTS_API_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      CHECK_INTERVAL_MINUTES: '5'
+      MAX_PRICE_RUB: '10000'
+      MAX_ALERTS_PER_CHECK: '10'
+      EGYPT_ORIGINS: 'SSH'
+      HOTEL_EMAIL_ENABLED: ${{ vars.HOTEL_EMAIL_ENABLED || '0' }}
+      HOTEL_IMAP_HOST: ${{ vars.HOTEL_IMAP_HOST || 'imap.gmail.com' }}
+      HOTEL_IMAP_USER: ${{ secrets.HOTEL_IMAP_USER }}
+      HOTEL_IMAP_PASSWORD: ${{ secrets.HOTEL_IMAP_PASSWORD }}
+    steps:
+      - name: Скачать код
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Поставить зависимости
+        run: python -m pip install -r requirements.txt
+      - name: Проверка по расписанию или тест
+        env:
+          RUN_MODE: ${{ inputs.mode || 'check' }}
+        run: python github_monitor.py --mode "$RUN_MODE"
+      - name: Сохранить историю уведомлений
+        if: ${{ always() && (github.event_name == 'schedule' || inputs.mode != 'test') }}
+        shell: bash
+        run: |
+          for filename in state/sent_prices.json state/hotel_email_ids.json; do
+            if [ -f "$filename" ]; then git add -- "$filename"; fi
+          done
+          if git diff --cached --quiet; then
+            echo "Новых уведомлений не было, сохранять нечего."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Сохранить историю цен и отельных оповещений [skip ci]"
+          git push
