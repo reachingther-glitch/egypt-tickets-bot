@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Xperience St. George Homestay",
+    "stars": 4,
+    "online_tours_rating": 8.8,
+    "all_inclusive_available": true,
+    "url": "https://www.onlinetours.ru/oteli/egypt/sharmelsheikh/xperience-st-george-sharm-el-sheikh",
+    "aliases": ["Xperience St. George Homestay", "Xperience St George"]
+  },
+  {
+    "name": "Rehana Sharm Resort Aquapark & Spa",
+    "stars": 4,
+    "online_tours_rating": 8.2,
+    "all_inclusive_available": true,
+    "url": "https://www.onlinetours.ru/oteli/egypt/sharmelsheikh/rehana-sharm-resort",
+    "aliases": ["Rehana Sharm Resort Aquapark & Spa", "Rehana Sharm Resort"]
+  },
+  {
+    "name": "Dreams Beach Resort Sharm El Sheikh",
+    "stars": 5,
+    "online_tours_rating": 8.6,
+    "all_inclusive_available": true,
+    "url": "https://www.onlinetours.ru/oteli/egypt/sharmelsheikh/dreams-beach-sharm-el-sheikh",
+    "aliases": ["Dreams Beach Resort Sharm El Sheikh", "Dreams Beach Resort"]
+  },
+  {
+    "name": "Jaz Mirabel Beach",
+    "stars": 5,
+    "online_tours_rating": 8.7,
+    "all_inclusive_available": true,
+    "url": "https://www.onlinetours.ru/oteli/egypt/sharmelsheikh/jaz-mirabel-beach",
+    "aliases": ["Jaz Mirabel Beach"]
+  },
+  {
+    "name": "Grand Rotana Resort & Spa",
+    "stars": 5,
+    "online_tours_rating": 8.9,
+    "all_inclusive_available": true,
+    "url": "https://www.onlinetours.ru/oteli/egypt/sharmelsheikh/grand-rotana-resortspa",
+    "aliases": ["Grand Rotana Resort & Spa", "Grand Rotana"]
+  },
+  {
+    "name": "Swissotel Sharm El Sheikh",
+    "stars": 5,
+    "online_tours_rating": 8.9,
+    "all_inclusive_available": true,
+    "url": "https://www.onlinetours.ru/oteli/egypt/sharm-el-sheikh/swissotel-sharm-el-sheikh",
+    "aliases": ["Swissotel Sharm El Sheikh", "Swissotel Sharm"]
+  }
+]
